@@ -16,9 +16,11 @@ public class JavaStdSerializer implements Serializer {
 
     @Override
     public <T> T deserialize(InputStream is, Class<T> clazz) {
+        // sanity check; we only support serializable objects
         if (!(Serializable.class.isAssignableFrom(clazz))) {
             throw new IllegalArgumentException("Not serializable");
         }
+        // construct object from input stream
         ObjectInputStream ois = null;
         try {
             ois = new ObjectInputStream(is);
@@ -35,6 +37,7 @@ public class JavaStdSerializer implements Serializer {
     @Override
     public void serialize(Object obj, OutputStream os) {
         try {
+            // use OOS to serialize object
             ObjectOutputStream oos = new ObjectOutputStream(os);
             oos.writeObject(obj);
         } catch (IOException e) {

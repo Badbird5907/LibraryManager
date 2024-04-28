@@ -31,10 +31,11 @@ public class EditBookCommand extends Command {
             execute(scanner);
             return;
         }
+        // a list of valid fields that can be edited. Could use reflection too...
         List<String> validFields = List.of("isbn", "title", "author", "publisher", "copyright", "published", "price", "genre", "category");
         String validFieldsStr = "Please enter the field you would like to edit:\n" + String.join(", ", validFields);
-        while (true) {
-            String field = readLine(validFieldsStr, scanner).toLowerCase();
+        while (true) { // loop until user cancels
+            String field = readLine(validFieldsStr, scanner).toLowerCase(); // read field
             switch (field) {
                 case "isbn" -> {
                     long newIsbn = readISBN(scanner, true, false);

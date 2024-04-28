@@ -24,6 +24,7 @@ public class SearchByCategoryCommand extends SearchCommand {
     @Override
     public List<Book> filterAndSort(Scanner scanner) {
         Category category = readEnumValue("Enter category", scanner, Category.class, false);
+        // returns books where category matches, sorted by title
         return Main.getInstance().getBooks().stream().filter(book -> book.getCategory() == category)
                 .sorted(Utils.sortByTitle())
                 .toList();

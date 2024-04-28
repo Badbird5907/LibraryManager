@@ -10,12 +10,13 @@ import java.util.Scanner;
 public abstract class SearchCommand extends Command {
     @Override
     public void execute(Scanner scanner) {
+        // our base search command. This handles the display logic. Search logic is handled by the filterAndSort method.
         List<Book> list = filterAndSort(scanner);
         if (list.isEmpty()) {
             System.out.println("Search returned no results.");
             return;
         }
-        if (list.size() > 1) {
+        if (list.size() > 1) { // if there are multiple results, display them in a table
             System.out.println("Found " + list.size() + " results.");
 
             String seperator = "-".repeat(141) + "%n";
@@ -38,7 +39,7 @@ public abstract class SearchCommand extends Command {
             System.out.printf(seperator);
             System.out.println("Enter a book # to get it's full info.");
             //noinspection InfiniteLoopStatement
-            while (true) {
+            while (true) { // filter input
                 long num = readLong("Book #/isbn (cancel to exit)", scanner);
                 if (Utils.isValidISBN(num)) {
                     list.stream().filter(book -> book.getId() == num)
@@ -53,7 +54,7 @@ public abstract class SearchCommand extends Command {
                 }
                 list.get((int) (num - 1)).printInfo();
             }
-        } else {
+        } else { // if there is only one result, print it
             System.out.println("Found 1 result.");
             list.get(0).printInfo();
         }

@@ -23,6 +23,6 @@ public class SearchUtils {
 
     public static boolean similar(String a, String b) {
         if (a.equalsIgnoreCase(b)) return true;
-        return a.startsWith(b) || b.startsWith(a) || a.endsWith(b) || b.endsWith(a);
+        return a.startsWith(b) || b.startsWith(a) || a.endsWith(b) || b.endsWith(a) || a.contains(b) || b.contains(a);
     }
 }

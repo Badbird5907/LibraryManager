@@ -29,13 +29,14 @@ public class Main {
         instance.run();
     }
 
-    private List<Command> commands;
+    private List<Command> commands; // registry of commands
     private Scanner scanner = new Scanner(System.in);
     private StorageProvider storageProvider = new FlatFileStorageProvider();
 
     private Set<Book> books;
 
     public Main() {
+        // initialize our list of commands
         commands = List.of(
                 new ListAllBooksCommand(),
                 new SearchByAuthorTitleCommand(),
@@ -48,8 +49,9 @@ public class Main {
                 new SaveCommand(),
                 new ExitCommand()
         );
+        // load books from storage
         books = storageProvider.loadBooks();
-        Runtime.getRuntime().addShutdownHook(new CleanupTask());
+        Runtime.getRuntime().addShutdownHook(new CleanupTask()); // save books on shutdown
     }
 
     public void run() {
@@ -60,12 +62,13 @@ public class Main {
         }
     }
 
-    public void execNextCommand() {
+    public void execNextCommand() { // reads user input and executes command
         System.out.println("Command:");
         String line = scanner.nextLine().trim();
         Command command;
         int i;
         try {
+            // read index
             i = Integer.parseInt(line);
             if (i > commands.size()) {
                 System.err.println("Invalid Command!");
@@ -75,7 +78,8 @@ public class Main {
             command = commands.get(i-1);
         } catch (NumberFormatException e) {
             // try to find command by name
-            command = commands.stream().filter(cmd -> cmd.getName().equalsIgnoreCase(line)).findFirst().orElse(null);
+            command = commands.stream().filter(cmd -> cmd.getName().equalsIgnoreCase(line))
+                    .findFirst().orElse(null);
             if (command == null) {
                 System.err.println("Invalid Command!");
                 execNextCommand();
@@ -83,16 +87,18 @@ public class Main {
             }
         }
         try {
+            // execute command
             command.execute(scanner);
             if (command.enterToContinue()) {
                 command.readLine("Press enter to continue", scanner);
             }
-        } catch (AbortCommandException e) {
+        } catch (AbortCommandException e) { // catch our custom abort exception
             System.out.println("Aborted command execution!");
         }
     }
 
     public void printHelp() {
+        // prints a table of commands
         String table = "| %-2s | %-25s | %-35s |%n";
         String separator = "------------------------------------------------------------------------%n";
         System.out.printf(separator);
@@ -106,7 +112,7 @@ public class Main {
     }
 
     public Book findBookByISBN(long isbn) {
-        return books.stream().filter(book -> book.getId() == isbn).findFirst().orElse(null);
+        return books.stream().filter(book -> book.getId() == isbn).findFirst().orElse(null); // return the first book with the given ISBN or null
     }
 
     public void save() {

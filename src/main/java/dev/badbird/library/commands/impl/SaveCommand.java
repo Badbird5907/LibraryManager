@@ -19,14 +19,16 @@ public class SaveCommand extends Command {
 
     @Override
     public void execute(Scanner scanner) {
+        // read file name
         String fileName = readLine("File", scanner);
         File file = new File(fileName);
-        if (file.exists()) {
+        if (file.exists()) { // check if file exists
             boolean overwrite = readBoolean("File already exists. Overwrite?", scanner);
             if (!overwrite) {
                 return;
             }
         }
+        // save books to file
         Main.getInstance().getStorageProvider().saveBooks(
                 Main.getInstance().getBooks(),
                 file

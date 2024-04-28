@@ -28,6 +28,7 @@ public class SearchByAuthorTitleCommand extends SearchCommand {
             System.err.println("You must supply either an author or title! Please try again, or enter \"cancel\" to cancel.");
             return filterAndSort(scanner);
         }
+        // returns books where author or title matches, sorted by title
         return Main.getInstance().getBooks().stream().filter(book -> {
             boolean authorMatches = author.isEmpty() || SearchUtils.similar(book.getAuthor(), author);
             boolean titleMatches = title.isEmpty() || SearchUtils.similar(book.getTitle(), title);

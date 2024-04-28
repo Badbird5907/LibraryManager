@@ -21,8 +21,9 @@ public class RemoveBookCommand extends Command {
         long id = readISBN(scanner, false, false);
         if (Main.getInstance().getBooks().removeIf(
                 book -> book.getId() == id
-        )) {
+        )) { // remove the book if it exists
             System.out.println("Removed the book!");
+            Main.getInstance().save();
         } else {
             System.err.println("Could not find a book with that ISBN! Please try again, or type \"cancel\" to exit.");
             execute(scanner);

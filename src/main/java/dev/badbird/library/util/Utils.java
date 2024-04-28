@@ -39,28 +39,34 @@ public class Utils {
     }
 
     public static String truncateString(String str, int maxLen) {
-        if (str.length() > maxLen) {
-            return str.substring(0, maxLen - 3) + "...";
+        if (str.length() > maxLen) { // if string is longer than maxLen
+            return str.substring(0, maxLen - 3) + "..."; // truncate and add ...
         }
         return str;
     }
 
     public static String camelCaseToWords(String in) {
-        return in.replaceAll(
-                String.format("%s|%s|%s",
-                        "(?<=[A-Z])(?=[A-Z][a-z])",
-                        "(?<=[^A-Z])(?=[A-Z])",
-                        "(?<=[A-Za-z])(?=[^A-Za-z])"
-                ),
-                " "
-        );
+        // convert camelCase to words
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < in.length(); i++) { // loop thru each char
+            char c = in.charAt(i);
+            if (Character.isUpperCase(c)) {
+                sb.append(" ");
+            }
+            if (i == 0) {
+                sb.append(Character.toUpperCase(c)); // capitalize first letter
+            } else {
+                sb.append(c);
+            }
+        }
+        return sb.toString().trim(); // return string
     }
 
     public static String capitalizeFirst(String in) {
-        return in.substring(0, 1).toUpperCase() + in.substring(1).toLowerCase();
+        return in.substring(0, 1).toUpperCase() + in.substring(1).toLowerCase(); // capitalize first letter and lowercase the rest
     }
 
-    public static String capitalizeFirstDeep(String in) {
+    public static String capitalizeFirstDeep(String in) { // capitalize each word
         StringBuilder sb = new StringBuilder();
         for (String s : in.split(" ")) {
             sb.append(capitalizeFirst(s)).append(" ");
@@ -69,6 +75,6 @@ public class Utils {
     }
 
     public static Comparator<Book> sortByTitle() {
-        return Comparator.comparing(Book::getTitle);
+        return Comparator.comparing(Book::getTitle); // simple comparator to sort books by title (str)
     }
 }

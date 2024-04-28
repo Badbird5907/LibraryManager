@@ -24,15 +24,18 @@ public class Book implements Serializable {
 
 
     public String getFieldName(Field field) {
+        // get the user-friendly name of the field to display in the table
         return field.isAnnotationPresent(FieldName.class) ? field.getAnnotation(FieldName.class).value()
                 : Utils.capitalizeFirst(Utils.camelCaseToWords(field.getName()));
     }
 
     public boolean isInvalidField(Field field) {
+        // should we show this field in the table?
         return field.isAnnotationPresent(Hidden.class) || Modifier.isStatic(field.getModifiers());
     }
 
     public void printInfo() {
+        // prints all fields of the book in a table
         String table = "| %-15s | %-45s |%n";
         String separator = "-".repeat(67) + "%n";
         System.out.printf(separator);
@@ -62,7 +65,7 @@ public class Book implements Serializable {
     }
 
     public Book(long id, String title, String author, String publisher, Date copyright, Date published, double price, Genre genre, Category category) {
-        if (!Utils.isValidISBN(id)) {
+        if (!Utils.isValidISBN(id)) { // check if isbn is valid
             throw new IllegalArgumentException("Invalid ISBN!");
         }
         this.id = id;

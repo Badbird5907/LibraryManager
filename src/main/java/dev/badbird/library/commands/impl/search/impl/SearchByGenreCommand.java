@@ -22,7 +22,9 @@ public class SearchByGenreCommand extends SearchCommand {
 
     @Override
     public List<Book> filterAndSort(Scanner scanner) {
+        // read genre from user input
         Genre genre = readEnumValue("Enter genre", scanner, Genre.class, false);
+        // returns books where genre matches, sorted by title
         return Main.getInstance().getBooks().stream().filter(book -> book.getGenre() == genre)
                 .sorted(Utils.sortByTitle())
                 .toList();

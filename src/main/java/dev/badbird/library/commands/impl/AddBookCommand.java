@@ -33,6 +33,7 @@ public class AddBookCommand extends Command {
         Genre genre = readEnumValue("Genre", scanner, Genre.class, false);
         Category category = readEnumValue("Category", scanner, Category.class, false);
 
+        // inst book and save it
         Book book = new Book(id, title, author, publisher, copyright, published, price, genre, category);
         Main.getInstance().getBooks().add(book);
         Main.getInstance().save();

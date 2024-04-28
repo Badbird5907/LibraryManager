@@ -21,6 +21,7 @@ public class ListAllBooksCommand extends SearchCommand {
 
     @Override
     public List<Book> filterAndSort(Scanner scanner) {
+        // sort by title
         return Main.getInstance().getBooks().stream().sorted(Utils.sortByTitle())
                 .toList();
     }
