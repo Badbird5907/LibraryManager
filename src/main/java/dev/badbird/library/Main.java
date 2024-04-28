@@ -19,7 +19,6 @@ import java.util.Set;
 
 public class Main {
     public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy");
-    public static final SimpleDateFormat CSV_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");
     private static final Main instance = new Main();
 
     public static Main getInstance() {
